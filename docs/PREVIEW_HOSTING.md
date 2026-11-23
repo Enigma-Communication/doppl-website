@@ -28,9 +28,9 @@ Use the Sites publishing workflow with access to the existing project:
 2. Apply the intended source changes and run the production build and checks.
 3. Package, save and deploy the matching source version through Sites.
 4. Immediately upload that build's exported files using `node scripts/upload-preview-assets.mjs`.
-5. Wait for all assets to upload before sharing the deployed version.
+5. Run `node scripts/verify-preview-assets.mjs` after uploading. Pass `url`, `password` and optional `bypass` in hidden stdin JSON. It verifies every non-HTML file hash and video byte ranges before sharing the deployed version.
 
-The upload script prompts for JSON through hidden stdin. Its input fields are `url` and `uploadToken`; `bypass` is optional for hosts that also require platform authentication. Credentials must stay out of shell arguments, files and logs. Each upload checks the local SHA-256 and asks storage to validate the checksum.
+The upload script prompts for JSON through hidden stdin. Its input fields are `url` and `uploadToken`; `bypass` is optional for hosts that also require platform authentication. Credentials must stay out of shell arguments, files and logs. Each upload checks the local SHA-256, asks storage to validate the checksum and requires the Worker to acknowledge the exact build ID. Requests retry while the new deployment propagates, so an older Worker cannot silently accept assets for the previous release.
 
 The Worker and uploaded assets must come from the same build. Deploying the Worker without its matching files leaves that version incomplete. Preserve the current access policy when updating the existing site.
 

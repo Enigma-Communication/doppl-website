@@ -70,3 +70,19 @@ test('missing configuration fails closed and viewer sessions cannot upload', asy
   assert.equal((await worker.fetch(request('/'), { ...env, DOPPL_PREVIEW_SECRET: '' })).status, 503);
   assert.equal((await worker.fetch(request('/_preview/upload?path=/index.html'), env)).status, 404);
 });
+
+test('uploads cannot acknowledge or write assets into the wrong deployment', async () => {
+  const writes = [];
+  const uploadEnv = { ...env, DOPPL_ASSETS: { ...env.DOPPL_ASSETS, async put(key) { writes.push(key); } } };
+  const upload = build => worker.fetch(request(`/_preview/upload?path=/index.html&build=${build}`, {
+    method: 'PUT', headers: { 'x-doppl-upload-token': env.DOPPL_ASSET_UPLOAD_TOKEN, 'content-length': '10' }, body: media,
+  }), uploadEnv);
+  const wrong = await upload('upcoming-build');
+  assert.equal(wrong.status, 409);
+  assert.equal(wrong.headers.get('x-doppl-build-id'), 'build');
+  assert.deepEqual(writes, []);
+  const correct = await upload('build');
+  assert.equal(correct.status, 201);
+  assert.equal(correct.headers.get('x-doppl-build-id'), 'build');
+  assert.deepEqual(writes, ['build/index.html']);
+});

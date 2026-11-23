@@ -1,0 +1,226 @@
+/* Alternating modules share a 1280px frame and section-specific reading grids. */
+.flow-site {
+  --section-space: clamp(42px, 6vw, 80px);
+  --column-gap: clamp(24px, 3.5vw, 48px);
+  --copy-size-reduction: 1.5pt;
+  --reading-size: calc(clamp(16px, 1.28vw, 17px) - var(--copy-size-reduction));
+  --module-lead-size: calc(clamp(1.125rem, 2.15vw, 1.75rem) - var(--copy-size-reduction));
+}
+
+html:has(.flow-site) { scroll-padding-top: 0; }
+.flow-site .direction-nav { position: static; justify-content: space-between; }
+.flow-site .direction-opening { scroll-margin-top: 75px; }
+.flow-site :is(.direction-engagement-passage, .direction-capabilities .production-card) {
+  scroll-margin-top: 16px;
+}
+
+.flow-site :is(.direction-studio, .direction-engagement-heading, .direction-capabilities) {
+  --paper: var(--brand-paper);
+  --white: var(--brand-black);
+  --acid: var(--white);
+  --muted: color-mix(in srgb, var(--white) 73%, var(--paper));
+  --line: color-mix(in srgb, var(--white) 34%, var(--paper));
+  --direction-rule: var(--line);
+  color-scheme: light;
+  color: var(--white);
+  background: var(--paper);
+  border-image: linear-gradient(var(--paper), var(--paper)) fill 0 // 0 100vmax;
+}
+
+.flow-site .direction-scroll-sections > .direction-section,
+.flow-site .direction-capabilities .home-section {
+  padding: var(--section-space) var(--gutter);
+}
+
+.flow-site .direction-scroll-sections > .direction-engagement { padding: 0; background: var(--brand-black); }
+.flow-site .direction-engagement-routes { padding: var(--section-space) var(--gutter); }
+.flow-site .direction-engagement-routes > .direction-engagement-passage:first-child { border-top: 0; padding-top: 0; }
+.flow-site .direction-scroll-sections h2 {
+  font-size: clamp(34px, calc(19px + 3vw), 60px);
+  line-height: 1.05;
+}
+
+.flow-site .direction-studio .direction-label {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 14px 0 0;
+  margin-bottom: clamp(40px, 5vw, 68px);
+  font-weight: 400;
+}
+
+.flow-site .direction-studio-heading {
+  display: block;
+  padding-bottom: clamp(48px, 6vw, 80px);
+  border-bottom: 1px solid var(--line);
+}
+.flow-site .direction-studio-title h2 {
+  font-size: clamp(3rem, 9.6vw, 8.25rem);
+  line-height: .94;
+  text-align: center;
+  white-space: normal;
+}
+.flow-site .direction-studio-title h2 > span { display: block; }
+.flow-site .direction-studio-word { display: block; }
+.flow-site .direction-studio-heading .direction-studio-intro {
+  width: 100%;
+  max-width: none;
+  margin: clamp(40px, 4vw, 56px) 0 0;
+  font-size: var(--module-lead-size);
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.flow-site .direction-expertise,
+.flow-site .direction-brand-options,
+.flow-site .direction-engagement-heading,
+.flow-site .production-heading,
+.flow-site .site-contact-heading {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px var(--column-gap);
+}
+.flow-site .direction-expertise {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.flow-site .direction-expertise p,
+.flow-site .direction-brand-options p { max-width: 58ch; }
+
+.flow-site .production-heading {
+  align-items: end;
+  margin-bottom: clamp(28px, 3vw, 40px);
+}
+.flow-site .production-heading .production-intro {
+  max-width: 50ch;
+  margin: 0;
+}
+.flow-site .direction-engagement-heading {
+  display: block;
+  margin: 0;
+  padding: clamp(60px, 6.5vw, 88px) var(--gutter) clamp(64px, 7vw, 96px);
+}
+.flow-site .direction-engagement-heading h2 {
+  font-size: clamp(5rem, 16vw, 13.5rem);
+  line-height: .88;
+  text-align: center;
+  white-space: normal;
+}
+.flow-site .direction-engagement-heading h2 > span { display: block; }
+.flow-site .direction-engagement-copy {
+  width: 100%;
+  margin-top: clamp(48px, 5vw, 68px);
+}
+.flow-site .direction-engagement-copy p {
+  max-width: none;
+  margin: 0;
+  font-size: var(--module-lead-size);
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.flow-site :is(h3, .production-card-title, .production-jobs-label, .direction-studio-intro, .direction-engagement-copy p) {
+  font-family: var(--mono);
+  font-weight: 400;
+  letter-spacing: -.015em;
+  word-spacing: normal;
+}
+
+/* Stroke only subhead text, never containers that also contain body copy. */
+.flow-site :is(
+  .direction-studio-intro,
+  .direction-engagement-copy > p,
+  .direction-engagement-passage > h3,
+  .production-card-title,
+  .production-jobs-label
+) {
+  -webkit-text-stroke: 0.15px currentColor;
+}
+
+.flow-site .direction-engagement-passage {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: start;
+  gap: 28px var(--column-gap);
+  padding-block: clamp(28px, 3.4vw, 46px);
+}
+.flow-site .direction-engagement-passage:last-child { padding-bottom: 0; }
+.flow-site .direction-engagement-passage h3 {
+  font-size: calc(clamp(22px, calc(15px + 1vw), 28px) - var(--copy-size-reduction));
+  line-height: 1.3;
+}
+.flow-site .direction-engagement-answer,
+.flow-site .direction-brand-response { max-width: 58ch; margin: 0; }
+.flow-site .direction-engagement-answer > .direction-text-link { margin-top: 16px; }
+.flow-site .direction-brand-options,
+.flow-site .direction-brand-options + .direction-text-link { grid-column: 1 / -1; margin: 0; }
+.flow-site .direction-brand-options > li { padding-top: 16px; }
+.flow-site .direction-brand-options > li::before { margin-bottom: 16px; font-weight: 400; }
+
+.flow-site .direction-capabilities .home-section-heading { margin: 0; padding: 0; border: 0; }
+.flow-site .direction-capabilities .home-section-heading::before { content: none; }
+.flow-site .direction-capabilities .production-card[data-open='true'] {
+  --paper: var(--brand-black);
+  --white: var(--brand-paper);
+  --acid: var(--white);
+  --muted: color-mix(in srgb, var(--white) 73%, var(--paper));
+  --line: color-mix(in srgb, var(--white) 34%, var(--paper));
+  background: var(--paper);
+  color: var(--white);
+  color-scheme: dark;
+}
+.flow-site .production-card-title { font-size: calc(clamp(22px, 2.2vw, 28px) - var(--copy-size-reduction)); line-height: 1.3; }
+.flow-site .production-card[data-open='true'] .production-card-title { font-size: calc(clamp(24px, 2.3vw, 30px) - var(--copy-size-reduction)); }
+.flow-site .production-card-summary { max-width: 46ch; }
+.flow-site .production-card-summary,
+.flow-site .production-jobs li { font-size: calc(16px - var(--copy-size-reduction)); }
+.flow-site .production-jobs-label { font-size: calc(12px - var(--copy-size-reduction)); }
+
+.flow-site .site-contact {
+  border-top: 0;
+  padding-top: var(--section-space);
+}
+.flow-site .site-contact h2 { font-size: clamp(34px, 3.4vw, 44px); line-height: 1.05; }
+.flow-site .site-contact-heading { align-items: start; }
+.flow-site .site-contact-heading p { max-width: 44ch; }
+.flow-site .site-contact-actions { margin-top: clamp(24px, 3vw, 40px); }
+.flow-site .site-contact-bottom { margin-top: clamp(36px, 4vw, 56px); }
+
+@media (min-width: 851px) {
+  .flow-site .production-cards:not([data-active='none']) .production-card[data-open='false'] .production-card-title {
+    font-size: calc(clamp(20px, 1.8vw, 24px) - var(--copy-size-reduction));
+  }
+}
+
+@media (max-width: 760px) {
+  .flow-site .direction-expertise,
+  .flow-site .direction-engagement-heading,
+  .flow-site .direction-engagement-passage,
+  .flow-site .direction-brand-options,
+  .flow-site .production-heading,
+  .flow-site .site-contact-heading { grid-template-columns: minmax(0, 1fr); }
+
+  .flow-site .direction-engagement-heading,
+  .flow-site .production-heading,
+  .flow-site .site-contact-heading { row-gap: 16px; }
+  .flow-site .direction-engagement-passage { row-gap: 20px; }
+  .flow-site .production-card[data-open='true'] .production-card-title { font-size: calc(24px - var(--copy-size-reduction)); }
+  .flow-site .direction-expertise { row-gap: 32px; }
+  .flow-site .direction-expertise-column + .direction-expertise-column { border-top: 1px solid var(--line); padding-top: 28px; }
+}
+
+@media (max-width: 600px) {
+  .flow-site .direction-studio-title h2 { font-size: clamp(2.125rem, 11.5vw, 4.25rem); }
+  .flow-site .direction-studio-title h2 > span + span { margin-top: .18em; }
+  .flow-site .direction-studio-heading .direction-studio-intro { width: 100%; margin-top: 36px; margin-left: 0; }
+}
+
+@media (max-width: 700px) {
+  .flow-site .direction-engagement-heading { padding-block: 56px; }
+  .flow-site .direction-engagement-heading h2 {
+    font-size: clamp(4rem, 20vw, 8rem);
+  }
+  .flow-site .direction-engagement-copy { margin-top: 40px; }
+}

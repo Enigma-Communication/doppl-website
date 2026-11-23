@@ -1,0 +1,361 @@
+/* The opening film and Dopply sit on black. The reading sections use the
+   reverse palette from the studio's printed brand guide. */
+html:has(.spatial-site, .brand-not-found),
+body:has(.spatial-site, .brand-not-found) { background: #000; }
+
+.doppl-system:has(> .spatial-site),
+.brand-not-found {
+  --brand-black: #000;
+  --brand-paper: #ecece3;
+  --paper: var(--brand-black);
+  --black: var(--brand-black);
+  --white: var(--brand-paper);
+  --acid: var(--white);
+  --muted: color-mix(in srgb, var(--white) 73%, var(--paper));
+  --line: color-mix(in srgb, var(--white) 36%, var(--paper));
+  --direction-rule: var(--line);
+  --sans: var(--font-body, 'DOPPL Favorit', monospace);
+  --mono: var(--sans);
+  --reading-size: clamp(16px, 1.28vw, 17px);
+  color: var(--white);
+  background: var(--paper);
+  font-family: var(--mono);
+  font-weight: 400;
+  letter-spacing: -.015em;
+  font-synthesis: none;
+}
+
+.spatial-site { --direction-rule: var(--line); }
+
+.spatial-site :is(h1, h2, h3, .production-card-title, .site-contact-email),
+.brand-not-found h1 {
+  font-family: var(--font-display, 'DOPPL Enigma', Georgia, serif);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  word-spacing: .025em;
+  font-kerning: normal;
+}
+
+.brand-not-found { min-height: 100svh; }
+.brand-not-found .header,
+.brand-not-found .not-found { max-width: 1360px; margin-inline: auto; }
+.brand-not-found .header nav { flex-wrap: wrap; }
+.brand-not-found .text-link { border-color: currentColor; }
+
+.spatial-site .mono {
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.spatial-site :focus-visible { outline-color: var(--white); }
+.spatial-site ::selection { color: var(--paper); background: var(--white); }
+.spatial-site .skip-link { color: var(--paper); background: var(--white); }
+
+.spatial-site .direction-nav {
+  min-height: 65px;
+  padding-block: 8px;
+  background: var(--paper);
+}
+
+:is(.spatial-site, .brand-not-found) .header-symbol span {
+  width: 31px;
+  height: 30px;
+  background: var(--white);
+  mask: url('/brand/dopply.svg') center / contain no-repeat;
+  mask-mode: alpha;
+}
+
+.spatial-site .direction-index-jump,
+.spatial-site .direction-contact {
+  font-size: 14px;
+}
+
+.spatial-site .direction-contact {
+  border-color: var(--line);
+  border-radius: 0;
+}
+
+.spatial-site .direction-contact:hover {
+  background: var(--white);
+  color: var(--paper);
+}
+
+.spatial-site .direction-wordmark { padding-top: clamp(26px, 3.6vw, 48px); }
+.spatial-site .spatial-film-intro { padding-top: clamp(18px, 2vw, 26px); }
+.spatial-site .spatial-film-intro > p {
+  padding-top: 10px;
+  margin-bottom: clamp(18px, 2.2vw, 30px);
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.spatial-site .direction-proposition {
+  padding-top: clamp(32px, 5.4vw, 72px);
+  padding-bottom: clamp(54px, 7.4vw, 100px);
+  row-gap: clamp(24px, 3vw, 42px);
+}
+
+.spatial-site .direction-proposition h1 {
+  font-size: clamp(46px, 5.65vw, 77px);
+  line-height: 1.02;
+  letter-spacing: -.015em;
+}
+
+.spatial-site .spatial-proposition-mascot { justify-items: center; }
+.doppl-system .spatial-site .spatial-proposition-mascot .hero-mascot {
+  width: min(100%, 220px);
+}
+
+.spatial-site .spatial-proposition-copy p,
+.spatial-site .direction-engagement-heading > p,
+.spatial-site .direction-brand-response,
+.spatial-site .direction-expertise > .direction-sentences > p,
+.spatial-site .direction-expertise > .direction-sentences > p:first-child,
+.spatial-site .direction-sentences p,
+.spatial-site .direction-brand-options .direction-sentences p,
+.spatial-site .production-intro,
+.spatial-site .site-contact-heading p {
+  font-size: var(--reading-size);
+  line-height: 1.65;
+  letter-spacing: -.015em;
+  color: var(--white);
+}
+
+.spatial-site .direction-text-link,
+.spatial-site .home-contact-link {
+  gap: 16px;
+  border-color: currentColor;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.spatial-site .direction-index-layout {
+  --paper: var(--brand-paper);
+  --white: var(--brand-black);
+  --acid: var(--brand-black);
+  --muted: color-mix(in srgb, var(--brand-black) 70%, var(--brand-paper));
+  --line: color-mix(in srgb, var(--brand-black) 34%, var(--brand-paper));
+  --direction-rule: var(--line);
+  padding-top: clamp(56px, 6.4vw, 88px);
+  background: var(--paper);
+  color: var(--white);
+  color-scheme: light;
+  /* Continue the paper to the page edges beyond the 1360px reading frame. */
+  border-image: linear-gradient(var(--paper), var(--paper)) fill 0 // 0 100vmax;
+}
+
+.spatial-site .direction-rail { top: 94px; }
+.spatial-site .direction-rail > p { margin-bottom: 18px; }
+.spatial-site .direction-rail nav > a {
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 14px;
+  text-wrap: pretty;
+}
+.spatial-site .direction-rail nav > a:hover,
+.spatial-site .direction-rail nav > a[aria-current] {
+  color: var(--white);
+  border-color: currentColor;
+  font-weight: 400;
+}
+.spatial-site .direction-rail-routes > a:hover { text-decoration: underline; }
+.spatial-site .direction-nav-number { color: var(--muted); }
+.spatial-site :is(.direction-nav-number, .direction-label, .production-card-hint, .production-jobs-label, .site-copy-email, .site-contact-bottom),
+.spatial-site .direction-rail > p,
+.spatial-site .direction-capabilities .home-section-heading::before {
+  font-size: 12px;
+}
+
+.spatial-site .direction-index-content h2,
+.spatial-site .site-contact h2 {
+  font-size: clamp(39px, 4.65vw, 64px);
+  line-height: 1.05;
+}
+.spatial-site .direction-engagement-passage h3 {
+  font-size: clamp(32px, 3.1vw, 42px);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.spatial-site .direction-label {
+  margin-bottom: clamp(26px, 3vw, 42px);
+  padding-block: 10px 0;
+  border-top: 1px solid var(--direction-rule);
+  border-bottom: 0;
+}
+.spatial-site .direction-studio-intro {
+  max-width: 42ch;
+  font-size: clamp(18px, 1.65vw, 22px);
+  line-height: 1.45;
+  letter-spacing: -.015em;
+}
+.spatial-site .direction-expertise { column-gap: clamp(28px, 4vw, 56px); }
+.spatial-site .direction-expertise > .direction-sentences + .direction-sentences {
+  margin-top: 0;
+}
+.spatial-site .direction-sentences p { max-width: 60ch; }
+.spatial-site .direction-sentences p + p { margin-top: 1.2em; }
+
+.spatial-site .direction-capabilities .home-section-heading {
+  padding-top: 10px;
+}
+.spatial-site .direction-capabilities .home-section-heading::before {
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-bottom: clamp(26px, 3vw, 42px);
+}
+.spatial-site .direction-capabilities .production-cards {
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.spatial-site .direction-capabilities .production-card {
+  --card-pad: clamp(19px, 2vw, 28px);
+  border: 0;
+  background: var(--paper);
+}
+.spatial-site .direction-capabilities .production-card[data-open='true'] {
+  background: var(--brand-black);
+  color: var(--brand-paper);
+  --white: var(--brand-paper);
+  --muted: color-mix(in srgb, var(--brand-paper) 76%, var(--brand-black));
+  --line: color-mix(in srgb, var(--brand-paper) 36%, var(--brand-black));
+  --acid: var(--brand-paper);
+}
+.spatial-site .production-card-trigger,
+.spatial-site .production-card[data-open='true'] .production-card-trigger {
+  min-height: 0;
+  gap: 22px;
+  justify-content: flex-start;
+}
+.spatial-site .production-card-trigger {
+  font-family: var(--mono);
+  font-weight: 400;
+  color: inherit;
+}
+.spatial-site .production-card-top { align-items: center; }
+.spatial-site .production-card-number,
+.spatial-site .production-cards:not([data-active='none']) .production-card[data-open='false'] .production-card-number {
+  font: 400 12px/1.25 var(--mono);
+  letter-spacing: 0;
+  opacity: 1;
+}
+.spatial-site .production-card-chevron { width: 19px; height: 19px; }
+.spatial-site .production-card-title {
+  font-size: clamp(27px, 2.35vw, 32px);
+  line-height: 1.12;
+  letter-spacing: -.005em;
+}
+.spatial-site .production-card[data-open='true'] .production-card-title {
+  font-size: clamp(28px, 2.8vw, 38px);
+  line-height: 1.1;
+}
+.spatial-site .production-card-summary,
+.spatial-site .production-jobs li {
+  color: var(--muted);
+  font: 400 16px/1.55 var(--mono);
+  letter-spacing: -.015em;
+}
+.spatial-site .production-card-content { flex: 1; }
+.spatial-site .production-card-hint {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+.spatial-site .production-jobs { grid-template-columns: 1fr; }
+.spatial-site .production-jobs li { padding-block: 10px; }
+.spatial-site .production-enquiry { margin-top: 12px; }
+
+.spatial-site .site-contact {
+  background: var(--brand-black);
+}
+.spatial-site .site-contact-email {
+  font-size: clamp(24px, 5.25vw, 72px);
+  line-height: 1.12;
+}
+.spatial-site .site-copy-email {
+  border-radius: 0;
+  background: transparent;
+}
+.spatial-site .site-copy-email:hover { border-color: var(--white); }
+.spatial-site .cursor-echo { mix-blend-mode: difference; }
+.spatial-site .cursor-echo > span { color: var(--brand-paper); }
+.spatial-site.spatial-textured .direction-opening::before,
+.spatial-site.spatial-textured .site-contact::before {
+  filter: grayscale(1);
+  opacity: .045;
+}
+.spatial-site.spatial-textured .direction-index-content > .direction-section::before,
+.spatial-site.spatial-textured .direction-capabilities::before {
+  filter: grayscale(1);
+  opacity: .026;
+}
+
+@media (min-width: 851px) {
+  .spatial-site .direction-capabilities .production-cards[data-active='none'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: 'film imagery' 'worlds hybrid';
+  }
+  .spatial-site .direction-capabilities .production-cards[data-active='film'] {
+    grid-template-columns: 2fr minmax(0, 1fr);
+    grid-template-areas: 'film imagery' 'film worlds' 'film hybrid';
+  }
+  .spatial-site .direction-capabilities .production-cards[data-active='imagery'] {
+    grid-template-columns: minmax(0, 1fr) 2fr;
+    grid-template-areas: 'film imagery' 'worlds imagery' 'hybrid imagery';
+  }
+  .spatial-site .direction-capabilities .production-cards[data-active='worlds'] {
+    grid-template-columns: minmax(0, 1fr) 2fr;
+    grid-template-areas: 'film worlds' 'imagery worlds' 'hybrid worlds';
+  }
+  .spatial-site .direction-capabilities .production-cards[data-active='hybrid'] {
+    grid-template-columns: minmax(0, 1fr) 2fr;
+    grid-template-areas: 'film hybrid' 'imagery hybrid' 'worlds hybrid';
+  }
+  .spatial-site .production-cards:not([data-active='none']) .production-card[data-open='false'] .production-card-trigger {
+    min-height: 0;
+    gap: 16px;
+  }
+  .spatial-site .production-cards:not([data-active='none']) .production-card[data-open='false'] .production-card-title {
+    font-size: clamp(22px, 1.95vw, 26px);
+  }
+}
+
+@media (max-width: 850px) {
+  .spatial-site .direction-capabilities .production-cards {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'film' 'imagery' 'worlds' 'hybrid';
+  }
+}
+
+@media (max-width: 800px) {
+  .spatial-site .direction-nav { min-height: 60px; }
+  .spatial-site .direction-proposition {
+    grid-template-columns: minmax(0, 1fr) clamp(60px, 18.45vw, 144px);
+    column-gap: 12px;
+  }
+  .spatial-site .direction-proposition h1 {
+    font-size: clamp(27px, 8.15vw, 56px);
+    white-space: pre-line;
+  }
+  .spatial-site .direction-title-word:first-child,
+  .spatial-site .direction-title-word:last-child { display: inline; }
+  .spatial-site .production-card-title { font-size: 28px; }
+  .spatial-site .production-card[data-open='true'] .production-card-title { font-size: 28px; }
+  .spatial-site .site-contact-email { column-gap: 8px; font-size: clamp(24px, 7.7vw, 48px); }
+  .spatial-site .direction-rail { top: auto; }
+  .spatial-site .direction-rail nav { gap: 0 16px; }
+  .spatial-site .direction-rail > p { margin-bottom: 12px; }
+  .spatial-site .direction-index-content h2,
+  .spatial-site .site-contact h2 {
+    font-size: clamp(34px, 6.75vw, 52px);
+  }
+  .spatial-site .direction-engagement-passage h3 {
+    font-size: clamp(26px, 5.4vw, 39px);
+  }
+}
+
+/* Preserve one navigation row and a comfortable address gutter on small phones. */
+@media (max-width: 420px) {
+  .spatial-site .direction-nav { gap: 8px; flex-wrap: nowrap; }
+  .spatial-site .direction-index-jump { gap: 8px; }
+  .spatial-site .direction-contact { gap: 8px; padding-inline: 10px; }
+}

@@ -13,7 +13,7 @@ export default function Directions() {
     <div className="board-options">{options.map(option => <article className="board-option" key={option.id}>
       <a className={`board-preview board-preview--${option.id}`} href={`/directions/${option.id}/`} aria-label={`Explore ${option.title}`}>
         <div className="board-mini-nav" aria-hidden="true"><span/><i/><i/><i/></div>
-        <img src="/doppl-wordmark.svg" alt="" width="1778" height="239"/>
+        <img src="/doppl-wordmark.svg" alt="" width="761.4311" height="123.926"/>
         <div className="board-mini-body" aria-hidden="true"><b>We Multiply<br/>Brand Potential</b><div><i/><i/><i/><i/></div></div>
         <span className="board-open">Explore direction<ArrowUpRight size={20}/></span>
       </a>

@@ -34,14 +34,20 @@ async function upload() {
     if (bytes.length !== asset.size || createHash('sha256').update(bytes).digest('hex') !== asset.sha256) throw new Error(`Source changed: ${pathname}`);
     const url = new URL('/_preview/upload', origin);
     url.searchParams.set('path', pathname);
+    url.searchParams.set('build', buildId);
     let response;
-    for (let attempt = 0; attempt < 3; attempt++) {
+    let stored = false;
+    for (let attempt = 0; attempt < 12; attempt++) {
       response = await fetch(url, { method: 'PUT', headers: { ...access, 'x-doppl-upload-token': input.uploadToken, 'content-type': asset.type, 'content-length': String(bytes.length) }, body: bytes, signal: AbortSignal.timeout(90000), redirect: 'error' });
-      if (response.ok || response.status < 500) break;
+      stored = response.status === 201 && response.headers.get('x-doppl-build-id') === buildId;
       await response.arrayBuffer();
+      if (stored) break;
+      if (response.status === 401 || response.status === 403) break;
+      // During rollout an older Worker may accept a shared asset path into its
+      // previous build. Only the matching build may acknowledge this upload.
+      if (attempt < 11) await new Promise(resolve => setTimeout(resolve, 2000));
     }
-    if (response.status !== 201) throw new Error(`Upload failed: ${pathname} (${response.status})`);
-    await response.arrayBuffer();
+    if (!stored) throw new Error(`Upload not confirmed for build ${buildId}: ${pathname} (${response.status})`);
     count++;
     if (count % 10 === 0) console.log(`Verified and uploaded ${count}/${Object.keys(assets).length} files.`);
   }

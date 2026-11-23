@@ -56,14 +56,19 @@ function ProductionCard({ production, index, open, onToggle, still }: { producti
 }
 
 /** Coordinated bento expansion with quiet surfaces and readable project lists. */
-export function ProductionServices() {
+export function ProductionServices({ plainHeading = false }: { plainHeading?: boolean }) {
   const [active, setActive] = useState<Production['id'] | null>(null);
   const reducedMotion = useReducedMotion();
   const { paused } = useContext(AlignmentContext);
   const still = paused || reducedMotion === true;
   return <section id="production" className="home-section production-services" aria-labelledby="production-title">
-    <div className="home-section-heading"><span className="mono" aria-hidden="true">03</span><h2 id="production-title">{t('production.title')}</h2></div>
-    <p className="production-intro">{t('production.description')}</p>
+    {plainHeading ? <div className="production-heading">
+      <div className="home-section-heading"><h2 id="production-title">{t('production.title')}</h2></div>
+      <p className="production-intro">{t('production.description')}</p>
+    </div> : <>
+      <div className="home-section-heading"><span className="mono" aria-hidden="true">03</span><h2 id="production-title">{t('production.title')}</h2></div>
+      <p className="production-intro">{t('production.description')}</p>
+    </>}
     <MotionConfig reducedMotion="user"><LayoutGroup id="production-bento">
       <div className="production-cards" data-active={active ?? 'none'}>{productionTypes.map((production, index) => <ProductionCard key={production.id} production={production} index={index} open={active === production.id} still={still} onToggle={() => setActive(current => current === production.id ? null : production.id)}/>)}</div>
     </LayoutGroup></MotionConfig>

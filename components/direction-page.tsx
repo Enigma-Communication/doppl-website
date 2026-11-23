@@ -23,7 +23,6 @@ const chapters = [
   { id: 'studio', label: 'Studio' },
   { id: 'how-we-work', label: 'How we work' },
   { id: 'production', label: 'Capabilities' },
-  { id: 'work', label: 'Our work' },
 ] as const;
 
 function useStill() {
@@ -62,9 +61,10 @@ function StudyBar({ direction }: { direction: Direction }) {
   return <div className="direction-review-bar"><a href="/directions/"><ArrowLeft size={13}/><span>All directions</span></a><nav aria-label="Choose a design study">{directions.map((item, index) => <a key={item.id} href={`/directions/${item.id}/`} aria-label={`0${index + 1} ${item.name}`} aria-current={direction === item.id ? 'page' : undefined}><span>0{index + 1}</span><span>{item.name}</span></a>)}</nav></div>;
 }
 
-function useChapter() {
+function useChapter(enabled = true) {
   const [active, setActive] = useState('top');
   useEffect(() => {
+    if (!enabled) return;
     const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-direction-chapter]'));
     const visible = new Set<Element>();
     const observer = new IntersectionObserver(entries => {
@@ -74,7 +74,7 @@ function useChapter() {
     }, { rootMargin: '-18% 0px -50% 0px', threshold: 0 });
     sections.forEach(section => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [enabled]);
   return active;
 }
 
@@ -82,18 +82,18 @@ function ChapterLinks({ active, spatial = false, onSelect }: { active: string; s
   return <>{chapters.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onSelect} aria-current={active === item.id ? 'location' : undefined}><span className="direction-nav-number mono" aria-hidden="true">0{index + 1}</span><span>{spatial && item.id === 'studio' ? t('home.studio.title').replace(/\s+/g, ' ') : item.label}</span></a>)}</>;
 }
 
-function DirectionNav({ direction, active }: { direction: Direction; active: string }) {
+function DirectionNav({ direction, active, flowing = false }: { direction: Direction; active: string; flowing?: boolean }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const close = () => { dialog.current?.close(); setOpen(false); trigger.current?.focus({ preventScroll: true }); };
   return <header className="direction-nav">
     <a className="header-symbol" href="#top" aria-label={t('navigation.homeAria')}><span aria-hidden="true"/></a>
-    {direction === 'editorial' ? <nav className="direction-chapter-links" aria-label="Main navigation"><ChapterLinks active={active}/></nav> : direction === 'spatial' ? <a className="direction-index-jump" href="#index">Studio index<ArrowDown size={15}/></a> : <button className="direction-index-trigger" ref={trigger} type="button" aria-haspopup="dialog" aria-expanded={open} aria-controls="direction-menu" onClick={() => { dialog.current?.showModal(); setOpen(true); }}>Index<span className="direction-menu-lines" aria-hidden="true"/></button>}
+    {direction === 'editorial' ? <nav className="direction-chapter-links" aria-label="Main navigation"><ChapterLinks active={active}/></nav> : direction === 'spatial' ? (flowing ? null : <a className="direction-index-jump" href="#index">Studio index<ArrowDown size={15}/></a>) : <button className="direction-index-trigger" ref={trigger} type="button" aria-haspopup="dialog" aria-expanded={open} aria-controls="direction-menu" onClick={() => { dialog.current?.showModal(); setOpen(true); }}>Index<span className="direction-menu-lines" aria-hidden="true"/></button>}
     <a href="#contact" className="direction-contact">Contact<ArrowUpRight size={16} aria-hidden="true"/></a>
     {direction === 'cinematic' && <dialog id="direction-menu" ref={dialog} className="direction-menu" aria-label="Site index" onCancel={event => { event.preventDefault(); event.stopPropagation(); close(); }} onClick={event => { if(event.target === event.currentTarget) close(); }}>
       <div className="direction-menu-top"><span className="mono">Doppl / Index</span><button type="button" onClick={close}>Close<ArrowUpRight size={18}/></button></div>
-      <nav aria-label="Site index"><ChapterLinks active={active} onSelect={close}/><a href="#contact" onClick={close}><span className="direction-nav-number mono">05</span><span>Contact</span></a></nav>
+      <nav aria-label="Site index"><ChapterLinks active={active} onSelect={close}/><a href="#contact" onClick={close}><span className="direction-nav-number mono">04</span><span>Contact</span></a></nav>
     </dialog>}
   </header>;
 }
@@ -133,7 +133,22 @@ function Reel({ direction }: { direction: Direction }) {
   </section>;
 }
 
-function Studio({ direction }: { direction: Direction }) {
+function Studio({ direction, flowing = false }: { direction: Direction; flowing?: boolean }) {
+  if (flowing) return <>
+    <section id="studio" className="direction-studio direction-section" aria-labelledby="direction-studio-title" data-direction-chapter="studio">
+      <div className="direction-label mono"><span>Studio</span></div>
+      <div className="direction-studio-heading">
+        <Depth className="direction-studio-title" amount={12} settle><h2 id="direction-studio-title">{t('home.studio.title').split('\n').map((line, index) => <span key={line}>{index > 0 ? <> {line.split(' ').map((word, wordIndex) => <span className="direction-studio-word" key={word}>{wordIndex > 0 ? ' ' : ''}{word}</span>)}</> : line}</span>)}</h2></Depth>
+        <p className="direction-studio-intro">{t('home.studio.intro')}</p>
+      </div>
+    </section>
+    <section className="direction-studio-details direction-section" aria-labelledby="direction-studio-title">
+      <div className="direction-expertise">
+        <div className="direction-expertise-column"><Sentences copyKey="home.studio.creative"/></div>
+        <div className="direction-expertise-column"><Sentences copyKey="home.studio.strategy"/></div>
+      </div>
+    </section>
+  </>;
   return <section id="studio" className="direction-studio direction-section" aria-labelledby="direction-studio-title" data-direction-chapter="studio">
     <div className="direction-label mono"><span>01</span><span>Studio</span></div>
     {direction === 'cinematic' ? <>
@@ -150,10 +165,8 @@ function Studio({ direction }: { direction: Direction }) {
   </section>;
 }
 
-function Engagement({ direction }: { direction: Direction }) {
-  return <section id="how-we-work" className="direction-engagement direction-section" aria-labelledby="direction-how-title" data-direction-chapter="how-we-work">
-    <div className="direction-label mono"><span>02</span><span>{t('home.engagement.title')}</span></div>
-    <div className="direction-engagement-heading"><Depth amount={24} settle={direction === 'spatial'}><h2 id="direction-how-title">{t('home.engagement.title')}</h2></Depth><p>{t('home.engagement.intro')}</p></div>
+function Engagement({ direction, flowing = false }: { direction: Direction; flowing?: boolean }) {
+  const routes = <>
     <article id="idea" className="direction-engagement-passage">
       <h3>{t('home.engagement.idea.title')}</h3>
       <div className="direction-engagement-answer"><Sentences copyKey="home.engagement.idea.description"/><a className="direction-text-link" href={`mailto:${t('contact.email')}?subject=${encodeURIComponent(t('home.engagement.idea.subject'))}`}>{t('home.engagement.idea.cta')}<ArrowUpRight size={18}/></a></div>
@@ -164,32 +177,41 @@ function Engagement({ direction }: { direction: Direction }) {
       <ol className="direction-brand-options"><li><Sentences copyKey="home.engagement.assets.description"/></li><li><Sentences copyKey="home.engagement.world.description"/></li></ol>
       <a className="direction-text-link" href={`mailto:${t('contact.email')}?subject=${encodeURIComponent(t('home.engagement.brand.subject'))}`}>{t('home.engagement.brand.cta')}<ArrowUpRight size={18}/></a>
     </article>
+  </>;
+  return <section id="how-we-work" className="direction-engagement direction-section" aria-labelledby="direction-how-title" data-direction-chapter="how-we-work">
+    {!flowing && <div className="direction-label mono"><span>02</span><span>{t('home.engagement.title')}</span></div>}
+    <div className="direction-engagement-heading">
+      <Depth amount={flowing ? 12 : 24} settle={direction === 'spatial'}><h2 id="direction-how-title">{flowing ? t('home.engagement.title').split(/ (?=\S+$)/).map((line, index) => <span key={line}>{index > 0 ? ' ' : ''}{line}</span>) : t('home.engagement.title')}</h2></Depth>
+      {flowing ? <div className="direction-engagement-copy"><p>{t('home.engagement.intro')}</p></div> : <p>{t('home.engagement.intro')}</p>}
+    </div>
+    {flowing ? <div className="direction-engagement-routes">{routes}</div> : routes}
   </section>;
 }
 
-function Capabilities() {
-  return <div className="direction-capabilities" data-direction-chapter="production"><ProductionServices/></div>;
+function Capabilities({ plainHeading = false }: { plainHeading?: boolean }) {
+  return <div className="direction-capabilities" data-direction-chapter="production"><ProductionServices plainHeading={plainHeading}/></div>;
 }
 
-function Work() {
-  return <section id="work" className="direction-work direction-section" data-direction-chapter="work" aria-labelledby="direction-work-title"><div className="direction-label mono"><span>04</span><span>{t('home.work.title')}</span></div><Depth amount={26} settle><h2 id="direction-work-title">{t('home.work.title')}</h2></Depth><p>{t('home.work.status')}</p></section>;
+function ScrollBody() {
+  return <div className="direction-scroll-sections"><Studio direction="spatial" flowing/><Engagement direction="spatial" flowing/><Capabilities plainHeading/></div>;
 }
 
 function SpatialBody({ active }: { active: string }) {
   return <div id="index" className="direction-index-layout">
-    <aside className="direction-rail"><p className="mono">Studio index</p><nav aria-label="Chapter navigation"><ChapterLinks spatial active={active}/><a href="#contact"><span className="direction-nav-number mono" aria-hidden="true">05</span><span>Contact</span></a></nav><div className="direction-rail-routes"><a href="#idea">Have an idea?<ArrowUpRight size={13}/></a><a href="#brand">Build your brand<ArrowUpRight size={13}/></a></div></aside>
-    <div className="direction-index-content"><Studio direction="spatial"/><Engagement direction="spatial"/><Capabilities/><Work/></div>
+    <aside className="direction-rail"><p className="mono">Studio index</p><nav aria-label="Chapter navigation"><ChapterLinks spatial active={active}/><a href="#contact"><span className="direction-nav-number mono" aria-hidden="true">04</span><span>Contact</span></a></nav><div className="direction-rail-routes"><a href="#idea">Have an idea?<ArrowUpRight size={13}/></a><a href="#brand">Build your brand<ArrowUpRight size={13}/></a></div></aside>
+    <div className="direction-index-content"><Studio direction="spatial"/><Engagement direction="spatial"/><Capabilities/></div>
   </div>;
 }
 
 function PreviewContent({ direction, site }: { direction: Direction; site: boolean }) {
-  const active = useChapter();
+  const flowing = site && direction === 'spatial';
+  const active = useChapter(!flowing);
   const still = useStill();
-  return <div className={`home-page direction-preview direction-${direction}${site ? ' spatial-site' : ''}${direction === 'spatial' ? ' spatial-textured' : ''}`} data-direction-still={still}>
+  return <div className={`home-page direction-preview direction-${direction}${site ? ' spatial-site' : ''}${flowing ? ' flow-site' : ''}${direction === 'spatial' ? ' spatial-textured' : ''}`} data-direction-still={still}>
     <a className="skip-link" href="#direction-main">{t('accessibility.skip')}</a>
-    {!site && <StudyBar direction={direction}/>}<DirectionNav direction={direction} active={active}/>
+    {!site && <StudyBar direction={direction}/>}<DirectionNav direction={direction} active={active} flowing={flowing}/>
     {direction === 'spatial' && <CursorEcho/>}
-    <main id="direction-main"><Intro direction={direction}/>{direction !== 'spatial' && <Reel direction={direction}/>} {direction === 'spatial' ? <SpatialBody active={active}/> : <><Studio direction={direction}/><Engagement direction={direction}/><Capabilities/><Work/></>}</main>
+    <main id="direction-main"><Intro direction={direction}/>{direction !== 'spatial' && <Reel direction={direction}/>} {direction === 'spatial' ? (flowing ? <ScrollBody/> : <SpatialBody active={active}/>) : <><Studio direction={direction}/><Engagement direction={direction}/><Capabilities/></>}</main>
     <div data-direction-chapter="contact"><SiteContact/></div>
     {!site && <footer className="direction-study-footer"><a href="/directions/"><ArrowLeft size={16}/>Compare all three directions</a><span className="mono">{direction === 'spatial' ? 'Selected direction' : 'Local design study'}</span></footer>}
   </div>;

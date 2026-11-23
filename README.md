@@ -1,14 +1,14 @@
-# DOPPL TEMP WEBSITE — V1
+# DOPPL TEMP WEBSITE
 
-DOPPL is a generative AI production studio combining creative expertise, filmmaking and marketing science. This repository contains the V1 company website, its source code and the media needed to run it.
+DOPPL is a generative AI production studio combining creative expertise, filmmaking and marketing science. This repository contains the company website, its source code and the media needed to run it.
 
 Live website: [doppl-studio.endoendo.chatgpt.site](https://doppl-studio.endoendo.chatgpt.site/). The hosted site uses password-protected access.
 
 ## Website
 
-The homepage introduces **Multipliers of Brand Potential**, followed by Studio, How we work, Capabilities, Our work and Contact. It includes a looping opening film, a transparent animated mascot, a spatial section index and subtle optical backgrounds. Four expandable capability cards cover Film & Video, Still Imagery, Brand Worlds and Hybrid Production. They use a two-column desktop grid and stack on mobile.
+The homepage introduces **Multipliers of Brand Potential**, followed by a standalone Studio title module, Studio body copy, a standalone How we work introduction, two ways to engage, Capabilities and Contact. Studio and How we work use oversized centred headings with full-width responsive introductions. It includes a looping opening film, a transparent animated mascot, a continuous one-page scroll with alternating black and off-white sections and subtle optical backgrounds. Four expandable capability cards cover Film & Video, Still Imagery, Brand Worlds and Hybrid Production. They use a two-column desktop grid and stack on mobile.
 
-The site is responsive, with keyboard-accessible controls, reduced-motion support and media suspension when content is off screen. The work section is ready for approved case studies. Enquiries open the visitor's email application at **hello@doppl.studio**.
+The site is responsive, with keyboard-accessible controls, reduced-motion support and media suspension when content is off screen. Enquiries open the visitor's email application at **hello@doppl.studio**.
 
 ## Technology
 
@@ -17,7 +17,7 @@ The site is responsive, with keyboard-accessible controls, reduced-motion suppor
 | Framework | Next.js 16.3.5, App Router, static export |
 | Language | TypeScript and TSX; JavaScript for build and hosting utilities |
 | UI | React 19.3.0, custom CSS, Motion 14 and Lucide icons |
-| Typography | Locally bundled DM Sans and IBM Plex Mono via Fontsource |
+| Typography | Supplied Enigma Large Roman headings, Favorit Mono Regular body and subheads, with a 0.15px text stroke on subheads only, self-hosted with next/font/local |
 | Content | JSON copy with stable content IDs |
 | Media | MP4 opening film; alpha WebM and Safari MOV mascot, with poster fallbacks |
 | Hosting | Cloudflare Worker password gate and private R2 asset storage through Sites |
@@ -65,7 +65,9 @@ Use this static server for export previews; Next.js `next start` is not compatib
 | `components/site-contact.tsx` | Enquiry links and contact interactions |
 | `lib/site-copy.json` | Editable website copy |
 | `lib/site-media.ts` | Opening film and poster paths |
-| `styles/spatial-site.css` | Main homepage layout and responsive styling |
+| `styles/spatial-site.css` | Shared homepage foundation and responsive media layout |
+| `styles/brand-refresh.css` | Brand colours, fonts and typographic tokens |
+| `styles/scroll-site.css` | One-page section layouts and alternating colour bands |
 | `styles/production-services.css` | Capability card layout and interactions |
 | `public/` | Film, mascot, brand assets, optical backgrounds and licences |
 | `worker/preview.mjs` | Password gate and protected media serving |
@@ -76,7 +78,7 @@ Use this static server for export previews; Next.js `next start` is not compatib
 
 Edit customer-facing wording in `lib/site-copy.json`, preserving its keys and placeholders. The Word handoff process is documented in [docs/COPY_WORKFLOW.md](docs/COPY_WORKFLOW.md).
 
-Media is included in the repository at its original file paths. Keep both alpha-video formats for browser compatibility and retain their transparency when replacing them. No media conversion is needed to run V1.
+Media is included in the repository at its original file paths. Keep both alpha-video formats for browser compatibility and retain their transparency when replacing them. No media conversion is needed to run the website.
 
 ## Deployment
 
@@ -84,4 +86,4 @@ The existing live site is hosted separately from this GitHub repository. A GitHu
 
 ## Release
 
-**V1 / `v1.0.0`** is the initial packaged website release. See [RELEASE_NOTES.md](RELEASE_NOTES.md) for its scope and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for dependency and component attribution.
+**V1.1 / `v1.1.0`** is the current website handover. The original **V1 / `v1.0.0`** remains available as a separate release. See [RELEASE_NOTES.md](RELEASE_NOTES.md) for the project overview and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for dependency and component attribution.

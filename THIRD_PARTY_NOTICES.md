@@ -16,6 +16,7 @@ The services interaction was informed by **Studiova Interactive Services Tabs** 
 
 ## Typography and icons
 
+- Enigma Large Roman and Favorit Mono are supplied project fonts. They retain their respective owners' rights; their inclusion does not grant a separate licence for other projects.
 - DM Sans and IBM Plex Mono are bundled through Fontsource under the SIL Open Font License. Licence files are included in `public/licenses/` and the installed packages.
 - Lucide icons are supplied by `lucide-react` under the ISC licence.
 - Other dependencies retain their licences in their installed packages.
